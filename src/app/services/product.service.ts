@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { catchError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -23,6 +23,37 @@ export class ProductService {
       catchError(this.handleError1) //handles errors
     );
   }
+
+    //makes POST request to add new Product
+    newProduct(product:Object):Observable<Object>{
+      console.log(product);
+      return this.http.post(`${this.baseURL}`, product)
+      .pipe(
+        catchError(this.handleError1)  // Handle errors
+      );
+    }
+
+    getSingleProduct(pid:number):Observable<any>{
+
+      return this.http.get(`${this.baseURL}/${pid}`)
+      .pipe(
+        catchError(this.handleError1)  // Handle errors
+      ); 
+    }
+
+    updateProduct(pid:number,value:any):Observable<Object>{
+      return this.http.put(`${this.baseURL}/${pid}`,value)
+      .pipe(
+        catchError(this.handleError1)  // Handle errors
+      );
+    }
+
+    deleteProduct(pid:number):Observable<any>{
+      return this.http.delete(this.baseURL + '/' + pid,{responseType:'text'})
+      .pipe(
+        catchError(this.handleError1)  // Handle errors
+      );
+    }
 
   // Handle errors globally
   private handleError1(error: HttpErrorResponse): Observable<never> {

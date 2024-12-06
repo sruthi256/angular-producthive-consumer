@@ -9,17 +9,15 @@
 .app-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   background-color: #282c34;
   padding: 20px;
   color: white;
+  
 }
 
 .app-logo {
   height: 75px;
-  align-content: center;
-  padding-left: 400px;
-  display: flex;
 }
 
 .app-header h1 {
@@ -35,6 +33,7 @@
   color:white;
   text-shadow: 0 2px 4px goldenrod;
   margin-bottom: 20px;
+  padding-left: 300px;
 }
 
 /* Section styles */
@@ -42,6 +41,7 @@ section {
     flex-grow: 1;
     padding: 20px;
     height: auto;
+    
 
 
   }

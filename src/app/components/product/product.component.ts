@@ -18,20 +18,48 @@ export class ProductComponent {
   products:Observable<Product[]> | any;
   message:string='';
 
-  constructor(private productservice: ProductService,
+  constructor(private productService: ProductService,
     private router: Router){}
   
-    ngOnInit():void{
+    ngOnInit():void{  //angular life cycle method -which will be invoked when component is initialised
       this.reloadData();
     }
 
     reloadData(){
-      this.productservice.getProductList().subscribe({
+      this.productService.getProductList().subscribe({
         next: (data) => {
           this.products=data; //assign the plain data, no need fro async pipe in the template
         },
         error: (err) => {
           console.error('Error Fetching product list:',err.message);
+        }
+      });
+    }
+
+    addProduct():void{
+      this.router.navigate(['/add-product/_add']);
+    }
+
+    editProduct(pid:number): void{
+      this.router.navigate(['/add-product',pid]);
+    }
+
+    productDetails(pid:number):void{
+      this.router.navigate(['/product-details', pid]);
+    }
+
+    deleteProduct(pid:number):void{
+      this.productService.deleteProduct(pid).subscribe({
+        next: () => {
+          this.message = 'Product deleted successfully.';
+          setTimeout(() => {
+            this.message = '';
+            this.reloadData();  // Refresh products list after deletion
+          }, 2000);  // Clear the message after 2 seconds
+        },
+        error: (err) => {
+          console.error('Error deleting product:', err.message);  // Handle the error
+          this.message = 'Error deleting product. Please try again later.';
         }
       });
     }
